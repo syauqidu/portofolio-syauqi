@@ -1,0 +1,182 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+const experiences = [
+  {
+    period: 'September 2024 – June 2026',
+    role: 'Teaching & Practicum Assistant',
+    organization: 'Informatics Laboratory, Telkom University',
+    focus: 'Supported Software Engineering teaching and practical learning activities.',
+    type: 'Academic',
+  },
+  {
+    period: 'July 2025 – September 2025',
+    role: 'UI/UX Designer Intern',
+    organization: 'PT Kereta Api Indonesia (Persero)',
+    focus: 'Contributed to the redesign of the corporate profile website.',
+    type: 'Internship',
+  },
+  {
+    period: 'Additional experience',
+    role: 'UI/UX Intern & QA Mentor',
+    organization: 'Advanced Software Engineering Laboratory',
+    focus: 'Contributed through UI/UX design and Software Quality Assurance mentoring.',
+    type: 'Design & mentoring',
+  },
+];
+---
+<section id="experience" class="section section-bordered shell">
+  <SectionHeading number="03" label="Experience" title="Where I’ve contributed." />
+  <p class="journey-note">Roles are ordered by known start date; some periods overlap.</p>
+  <experience-timeline>
+    <div class="journey-track" aria-hidden="true">
+      <span class="journey-fill"></span>
+      <span class="journey-marker"><Icon name="lucide:train-front" size={19} /></span>
+    </div>
+    <ol class="journey-entries" aria-label="Professional and academic experience">
+      {experiences.map((experience) => (
+        <li class="journey-entry">
+          <span class="journey-stop" aria-hidden="true"></span>
+          <p class="experience-date">{experience.period}</p>
+          <div class="journey-content">
+            <h3>{experience.role}</h3>
+            <p class="organization">{experience.organization}</p>
+            <p>{experience.focus}</p>
+          </div>
+          <span class="experience-type">{experience.type}</span>
+        </li>
+      ))}
+    </ol>
+  </experience-timeline>
+</section>
+<script>
+  import { getScrollProgress } from '../lib/scroll-progress';
+
+  class ExperienceTimeline extends HTMLElement {
+    private dispose?: () => void;
+
+    connectedCallback() {
+      if (this.dispose) return;
+      const section = this.closest<HTMLElement>('section');
+      const track = this.querySelector<HTMLElement>('.journey-track');
+      const entries = Array.from(this.querySelectorAll<HTMLElement>('.journey-entry'));
+      const stops = Array.from(this.querySelectorAll<HTMLElement>('.journey-stop'));
+      if (!section || !track || stops.length < 2 || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) return;
+
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const header = document.querySelector<HTMLElement>('.site-header');
+      const events = new AbortController();
+      let frame = 0;
+      let geometryDirty = true;
+      let disposed = false;
+      let visible = false;
+      let listening = false;
+      let start = 0;
+      let end = 0;
+      let travel = 0;
+      let stopOffsets: number[] = [];
+
+      const reset = () => {
+        delete this.dataset.animated;
+        entries.forEach((entry) => {
+          delete entry.dataset.reached;
+          delete entry.dataset.current;
+        });
+      };
+
+      const measure = () => {
+        // Read layout together before changing styles. The marker and line share this geometry.
+        const rootTop = this.getBoundingClientRect().top;
+        const points = stops.map((stop) => {
+          const rect = stop.getBoundingClientRect();
+          return rect.top + rect.height / 2;
+        });
+        const first = points[0];
+        const last = points[points.length - 1];
+        const stickyHeight = header?.getBoundingClientRect().height ?? 0;
+        const viewport = window.innerHeight;
+        const readingLine = stickyHeight + Math.max(0, viewport - stickyHeight) * 0.45;
+        start = section.getBoundingClientRect().top + window.scrollY - viewport;
+        end = last + window.scrollY - readingLine;
+        travel = Math.max(0, last - first);
+        stopOffsets = points.map((point) => point - first);
+        track.style.top = `${first - rootTop}px`;
+        track.style.height = `${travel}px`;
+        geometryDirty = false;
+      };
+
+      const update = () => {
+        frame = 0;
+        if (disposed || motion.matches) return;
+        try {
+          if (geometryDirty) measure();
+          const progress = getScrollProgress(window.scrollY, start, end);
+          const offset = progress * travel;
+          this.style.setProperty('--journey-progress', String(progress));
+          this.style.setProperty('--journey-offset', `${offset}px`);
+          let current = -1;
+          entries.forEach((entry, index) => {
+            const reached = window.scrollY >= start && offset + 0.5 >= stopOffsets[index];
+            entry.dataset.reached = String(reached);
+            if (reached) current = index;
+          });
+          entries.forEach((entry, index) => { entry.dataset.current = String(index === current); });
+          this.dataset.animated = 'true';
+        } catch {
+          // Progressive enhancement must never make the experience content unavailable.
+          cleanup();
+        }
+      };
+      const schedule = () => {
+        if (!disposed && !motion.matches && !frame) frame = requestAnimationFrame(update);
+      };
+      const invalidate = () => { geometryDirty = true; schedule(); };
+      const syncListening = () => {
+        const wanted = visible && !motion.matches && !disposed;
+        if (wanted && !listening) window.addEventListener('scroll', schedule, { passive: true });
+        if (!wanted && listening) window.removeEventListener('scroll', schedule);
+        listening = wanted;
+      };
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncListening();
+        // Update on exit as well, including scroll jumps past the whole section.
+        invalidate();
+      });
+      const resize = new ResizeObserver(invalidate);
+      const cleanup = () => {
+        disposed = true;
+        cancelAnimationFrame(frame);
+        window.removeEventListener('scroll', schedule);
+        observer.disconnect();
+        resize.disconnect();
+        events.abort();
+        reset();
+      };
+      this.dispose = cleanup;
+      motion.addEventListener('change', () => {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        reset();
+        syncListening();
+        invalidate();
+      }, { signal: events.signal });
+      window.addEventListener('resize', invalidate, { passive: true, signal: events.signal });
+      window.addEventListener('pageshow', invalidate, { signal: events.signal });
+      window.addEventListener('load', invalidate, { once: true, signal: events.signal });
+      document.addEventListener('visibilitychange', invalidate, { signal: events.signal });
+      observer.observe(section);
+      resize.observe(section);
+      if (header) resize.observe(header);
+      document.fonts.ready.then(invalidate);
+      // Set the actual state immediately, including hash links and restored scroll positions.
+      update();
+    }
+
+    disconnectedCallback() {
+      this.dispose?.();
+      this.dispose = undefined;
+    }
+  }
+  if (!customElements.get('experience-timeline')) customElements.define('experience-timeline', ExperienceTimeline);
+</script>

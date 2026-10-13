@@ -1,0 +1,9 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+interface Props { projects: CollectionEntry<'projects'>[]; featured?: boolean; headingLevel?: 'h2' | 'h3'; }
+const { projects, featured = false, headingLevel = 'h3' } = Astro.props;
+---
+<div class:list={['project-grid', { 'featured-grid': featured }]}>
+  {projects.map((project) => <ProjectCard project={project} featured={featured} headingLevel={headingLevel} />)}
+</div>

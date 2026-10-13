@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { categories, projectPath } from '../../lib/projects';
+import Arrow from '../Arrow.astro';
+import ProjectTags from './ProjectTags.astro';
+interface Props { project: CollectionEntry<'projects'>; featured?: boolean; headingLevel?: 'h2' | 'h3'; }
+const { project, featured = false, headingLevel: Heading = 'h3' } = Astro.props;
+const { data } = project;
+---
+<article class:list={['project-card', { 'project-featured': featured }]} data-category={data.category}>
+  {data.cover && <Image class="project-cover" src={data.cover.src} alt={data.cover.alt} widths={[480, 900]} sizes="(max-width: 700px) 100vw, 50vw" />}
+  <div class="project-card-top">
+    <span class="eyebrow accent">{categories[data.category]}</span>
+    {data.projectType && <p class="small-label">{data.projectType}</p>}
+  </div>
+  <div class="project-card-content">
+    <Heading class="project-title"><a href={projectPath(project.id)}>{data.title}</a></Heading>
+    <p class="project-summary">{data.summary}</p>
+    <p class="project-role">Role <span>{data.role}</span></p>
+    <ProjectTags tags={data.tags.slice(0, 4)} />
+  </div>
+  <div class="project-card-bottom" aria-hidden="true"><span>Explore the case study</span><Arrow diagonal /></div>
+</article>

@@ -1,17 +1,104 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Arrow from '../components/Arrow.astro';
+import ProjectGrid from '../components/projects/ProjectGrid.astro';
+import { getPublishedProjects } from '../lib/projects';
+import { getProfileAssets } from '../lib/profile';
+import DownloadCVButton from '../components/DownloadCVButton.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import Expertise from '../components/Expertise.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 
+const featured = (await getPublishedProjects())
+  .filter((project) => project.data.featured)
+  .slice(0, 4);
+const { portrait } = getProfileAssets();
 ---
+<BaseLayout
+  title="Syauqi Dhiya Ulhaq | Software Engineering, QA & UI/UX"
+  description="Syauqi Dhiya Ulhaq’s personal portfolio. Software Engineering with a focus on quality assurance, UI/UX design, and software development. Based in Bandung, Indonesia."
+>
+  <section class="hero shell" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Software Engineering</p>
+      <h1 id="hero-title">Syauqi<br />Dhiya Ulhaq<span>.</span></h1>
+      <p class="hero-description">
+        Focused on <strong>Quality Assurance</strong> and <strong>UI/UX Design</strong>.
+        Interested in building software that works reliably and feels intuitive.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/projects/">View Projects <Arrow /></a>
+        <DownloadCVButton />
+      </div>
+    </div>
+    <div class="portrait">
+      {portrait ? (
+        <img
+          src={portrait}
+          alt="Portrait of Syauqi Dhiya Ulhaq"
+          width="640"
+          height="800"
+          fetchpriority="high"
+          decoding="async"
+        />
+      ) : (
+        <div class="portrait-fallback" role="img" aria-label="SDU — monogram of Syauqi Dhiya Ulhaq">
+          <span aria-hidden="true">sdu<span>.</span></span>
+        </div>
+      )}
+    </div>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <section id="about" class="section section-bordered shell editorial-layout">
+    <SectionHeading number="01" label="About me" title="A thoughtful approach to software." />
+    <div class="about-copy">
+      <p class="lead">I’m Syauqi, based in Bandung, Indonesia. My background in Software Engineering shapes how I think about both software quality and user experience.</p>
+      <p>In QA, I work from acceptance criteria through test design, execution, and defect verification. My capstone work brought these activities into Agile Scrum sprints, alongside functional web automation.</p>
+      <p>UI/UX design and teaching have added another perspective: understanding how people interact with software, and making technical ideas easier to follow.</p>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section id="selected-work" class="section section-bordered shell">
+      <div class="section-heading-row">
+        <SectionHeading number="02" label="Selected projects" title="A closer look at my work." />
+        <a class="text-link" href="/projects/">All projects <Arrow /></a>
+      </div>
+      <ProjectGrid projects={featured} featured />
+    </section>
+  )}
+
+  <ExperienceTimeline />
+
+  <Expertise />
+
+  <section id="education" class="section section-bordered shell">
+    <SectionHeading number="05" label="Education & achievements" title="Learning, with purpose." />
+    <div class="credentials-grid">
+      <article>
+        <p class="small-label">Education <span>2022–2026</span></p>
+        <h3>Telkom University</h3>
+        <p>Bachelor of Software Engineering</p>
+        <p class="credential-detail">GPA <strong>3.90 / 4.00</strong></p>
+      </article>
+      <article>
+        <p class="small-label">Achievement <span>November 2023</span></p>
+        <h3>3rd Place — Digi X 2023</h3>
+        <p>National Business Plan & UI/UX Case Competition</p>
+        <p class="credential-detail">Issued by HIMA Bisnis Digital, Universitas Padjadjaran</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="shell contact-inner">
+      <div>
+        <p class="eyebrow">06 / Get in touch</p>
+        <h2>Let’s start a<br />conversation<span>.</span></h2>
+        <p>For opportunities in QA, design, or software development, I’d be glad to connect.</p>
+      </div>
+      <SocialLinks />
+    </div>
+  </section>
+</BaseLayout>

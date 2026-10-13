@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../../components/projects/ProjectGrid.astro';
+import { getPublishedProjects, categories } from '../../lib/projects';
+const projects = await getPublishedProjects();
+---
+<BaseLayout title="Projects | Syauqi Dhiya Ulhaq" description="Explore Syauqi Dhiya Ulhaq’s project case studies, including sprint-based quality assurance, black-box testing, and Katalon Studio automation.">
+  <section class="shell projects-page">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Projects</span></nav>
+    <p class="eyebrow accent">The work / The process</p><h1>Projects with<br /><span>a closer look.</span></h1><p class="page-intro">The context, decisions, and practical work behind each project. Explore my contributions, process, and deliverables.</p>
+    <div class="project-filters" role="group" aria-label="Filter projects by category" hidden><button type="button" data-filter="all" aria-pressed="true">All projects <span>{projects.length}</span></button>{Object.entries(categories).map(([value, label]) => <button type="button" data-filter={value} aria-pressed="false">{label} <span>{projects.filter((project) => project.data.category === value).length}</span></button>)}</div>
+    <p class="filter-status" role="status" aria-live="polite" aria-atomic="true">{projects.length} {projects.length === 1 ? 'case study' : 'case studies'}</p>
+    <ProjectGrid projects={projects} headingLevel="h2" />
+    <p class="empty-state" hidden>No published case studies in this category yet. Choose another category to explore the available work.</p>
+  </section>
+</BaseLayout>
+<script>
+  const filters = document.querySelector<HTMLElement>('.project-filters');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+  const status = document.querySelector<HTMLElement>('.filter-status');
+  const emptyState = document.querySelector<HTMLElement>('.empty-state');
+  if (filters) filters.hidden = false;
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    const filter = button.dataset.filter;
+    let count = 0;
+    buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    cards.forEach((card) => {
+      card.hidden = filter !== 'all' && card.dataset.category !== filter;
+      if (!card.hidden) count++;
+    });
+    if (status) status.textContent = `${count} ${count === 1 ? 'case study' : 'case studies'}`;
+    if (emptyState) emptyState.hidden = count > 0;
+  }));
+</script>

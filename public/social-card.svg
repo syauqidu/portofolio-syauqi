@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f5f8fc"/>
+  <text x="78" y="94" fill="#53647b" font-size="18" font-family="Arial, sans-serif" letter-spacing="3">SOFTWARE ENGINEERING</text>
+  <text x="72" y="240" fill="#0b1730" font-size="94" font-family="Arial, sans-serif" font-weight="600" letter-spacing="-4">Syauqi</text>
+  <text x="72" y="349" fill="#0b1730" font-size="94" font-family="Arial, sans-serif" font-weight="600" letter-spacing="-4">Dhiya Ulhaq.</text>
+  <rect x="78" y="396" width="64" height="4" fill="#a9d6f5"/>
+  <text x="78" y="453" fill="#53647b" font-size="26" font-family="Arial, sans-serif">Quality Assurance / UI/UX Design / Software Development</text>
+  <path d="M78 523h1044" stroke="#d8e0ea"/>
+  <text x="78" y="571" fill="#53647b" font-size="20" font-family="Arial, sans-serif">Bandung, Indonesia</text>
+  <text x="1023" y="571" fill="#0b1730" font-size="27" font-family="Arial, sans-serif" font-weight="600">syauqi.</text>
+</svg>

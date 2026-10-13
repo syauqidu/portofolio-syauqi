@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import Arrow from './Arrow.astro';
+import { profile } from '../data/profile';
+---
+<div class="contact-links">
+  <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.name}: ${profile.email}`}>
+    <span class="social-identity"><span class="social-icon"><Icon name="lucide:mail" size={23} /></span><span><small>Email</small>{profile.email}</span></span>
+    <Arrow diagonal />
+  </a>
+  <a href={profile.linkedin} aria-label={`${profile.name} on LinkedIn`}>
+    <span class="social-identity"><span class="social-icon social-brand"><Icon name="devicon:linkedin" size={23} /></span><span><small>LinkedIn</small>{profile.name}</span></span>
+    <Arrow diagonal />
+  </a>
+  {profile.github && <a href={profile.github} aria-label={`${profile.name} on GitHub`}>
+    <span class="social-identity"><span class="social-icon social-brand"><Icon name="devicon:github" size={23} /></span><span><small>GitHub</small>{new URL(profile.github).pathname.replaceAll('/', '')}</span></span>
+    <Arrow diagonal />
+  </a>}
+  <p>{profile.location}</p>
+</div>

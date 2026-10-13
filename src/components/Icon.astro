@@ -1,0 +1,17 @@
+---
+import lucide from '@iconify-json/lucide/icons.json';
+import devicon from '@iconify-json/devicon/icons.json';
+
+export type IconName = `lucide:${keyof typeof lucide.icons}` | `devicon:${keyof typeof devicon.icons}`;
+interface Props { name: IconName; size?: number; }
+const { name, size = 20 } = Astro.props;
+const [prefix, key] = name.split(':');
+const collection = prefix === 'lucide' ? lucide : devicon;
+const icons: Record<string, { body: string; width?: number; height?: number }> = collection.icons;
+const icon = icons[key];
+if (!icon) throw new Error(`Unknown icon: ${name}`);
+const width = icon.width ?? collection.width;
+const height = icon.height ?? collection.height;
+---
+<!-- Icons accompany visible labels or a labelled parent link; avoid duplicate announcements. -->
+<svg class="icon" width={size} height={size} viewBox={`0 0 ${width} ${height}`} aria-hidden="true" focusable="false" set:html={icon.body} />

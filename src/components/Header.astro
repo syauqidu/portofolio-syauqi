@@ -1,0 +1,59 @@
+---
+import HomeLink from './HomeLink.astro';
+import DownloadCVButton from './DownloadCVButton.astro';
+const isProjects = Astro.url.pathname.startsWith('/projects');
+---
+<header class="site-header">
+  <div class="shell header-inner">
+    <HomeLink />
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation" hidden>
+      <span>Menu</span><span class="menu-symbol" aria-hidden="true">+</span>
+    </button>
+    <nav id="main-navigation" aria-label="Main navigation" class="main-nav">
+      <a href="/#about">About</a>
+      <a href="/projects/" aria-current={isProjects ? 'page' : undefined}>Projects</a>
+      <a href="/#experience">Experience</a>
+      <a class="nav-contact" href="/#contact">Contact <span aria-hidden="true">↗</span></a>
+      <DownloadCVButton variant="primary" compact />
+    </nav>
+  </div>
+</header>
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navigation = document.querySelector<HTMLElement>('#main-navigation');
+
+  if (header && toggle && navigation) {
+    header.dataset.enhanced = 'true';
+    toggle.hidden = false;
+    const syncHeaderHeight = () => {
+      document.documentElement.style.setProperty('--header-height', `${header.getBoundingClientRect().height}px`);
+    };
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      syncHeaderHeight();
+    };
+    syncHeaderHeight();
+
+    toggle.addEventListener('click', () => {
+      toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true'));
+    });
+    navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !header.contains(event.target)) closeMenu();
+    });
+    window.matchMedia('(min-width: 701px)').addEventListener('change', closeMenu);
+    // Keep native fragment navigation and the reading area clear of the sticky header.
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(syncHeaderHeight);
+      observer.observe(header);
+      document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+    }
+  }
+</script>

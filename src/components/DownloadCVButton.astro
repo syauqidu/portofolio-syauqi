@@ -1,0 +1,10 @@
+---
+import Icon from './Icon.astro';
+import { getProfileAssets } from '../lib/profile';
+interface Props { variant?: 'primary' | 'secondary'; compact?: boolean; }
+const { variant = 'secondary', compact = false } = Astro.props;
+const { cv } = getProfileAssets();
+---
+{cv && <a class:list={['button', `button-${variant}`, 'download-cv', { 'button-compact': compact }]} href={cv} download>
+  <Icon name="lucide:download" size={18} /><span>Download CV</span>
+</a>}

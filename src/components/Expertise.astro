@@ -1,0 +1,67 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import Icon, { type IconName } from './Icon.astro';
+
+interface Tool { label: string; icon?: IconName; image?: string; }
+const areas: { title: string; description: string; tools: Tool[] }[] = [
+  {
+    title: 'Software Quality Assurance',
+    description: 'Turning acceptance criteria into testable scenarios and verified behavior.',
+    tools: [
+      { label: 'Katalon Studio', image: '/katalon.svg' },
+      { label: 'Manual Testing', icon: 'lucide:clipboard-check' },
+      { label: 'Functional Testing', icon: 'lucide:scan-line' },
+      { label: 'Black-Box Testing', icon: 'lucide:boxes' },
+      { label: 'Test Automation', icon: 'lucide:repeat-2' },
+      { label: 'Defect Management', icon: 'lucide:bug' },
+    ],
+  },
+  {
+    title: 'UI/UX Design',
+    description: 'Considering how an interface looks, works, and supports the people using it.',
+    tools: [
+      { label: 'Figma', icon: 'devicon:figma' },
+      { label: 'Wireframing', icon: 'lucide:panels-top-left' },
+      { label: 'Prototyping', icon: 'lucide:mouse-pointer-2' },
+      { label: 'User Flow', icon: 'lucide:route' },
+      { label: 'Usability Testing', icon: 'lucide:users' },
+    ],
+  },
+  {
+    title: 'Software Development',
+    description: 'An engineering foundation that connects interfaces, logic, and data.',
+    tools: [
+      { label: 'JavaScript', icon: 'devicon:javascript' },
+      { label: 'PHP', icon: 'devicon:php' },
+      { label: 'Java', icon: 'devicon:java' },
+      { label: 'Laravel', icon: 'devicon:laravel' },
+      { label: 'Express.js', icon: 'devicon:express' },
+      { label: 'MySQL', icon: 'devicon:mysql' },
+      { label: 'PostgreSQL', icon: 'devicon:postgresql' },
+      { label: 'Git', icon: 'devicon:git' },
+      { label: 'GitHub', icon: 'devicon:github' },
+    ],
+  },
+];
+---
+<section id="skills" class="section section-bordered shell">
+  <SectionHeading number="04" label="Expertise & tools" title="Three connected perspectives." />
+  <div class="skills-grid">
+    {areas.map((area) => (
+      <article class="skill-column">
+        <h3>{area.title}</h3>
+        <p>{area.description}</p>
+        <ul class="tool-list">
+          {area.tools.map((tool) => <li>
+            <span class="tool-icon">
+              {tool.icon && <Icon name={tool.icon} size={23} />}
+              {tool.image && <img src={tool.image} alt="" width="23" height="23" loading="lazy" />}
+            </span>
+            <span>{tool.label}</span>
+          </li>)}
+        </ul>
+        {area.title === 'Software Quality Assurance' && <p class="technique-note">BVA · Equivalence Partitioning · Decision Tables</p>}
+      </article>
+    ))}
+  </div>
+</section>

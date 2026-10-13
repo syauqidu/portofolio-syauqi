@@ -1,0 +1,10 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props { items: CollectionEntry<'projects'>['data']['evidence']; }
+const { items } = Astro.props;
+---
+{items.length > 0 && <section class="evidence-gallery" aria-label="Project evidence">
+  <h2>Project evidence</h2>
+  {items.map((item) => <figure><Image src={item.src} alt={item.alt} widths={[640, 1000]} sizes="(max-width: 800px) 100vw, 750px" />{item.caption && <figcaption>{item.caption}</figcaption>}</figure>)}
+</section>}
