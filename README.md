@@ -1,165 +1,153 @@
-﻿# Portfolio — Syauqi Dhiya Ulhaq
+﻿# Syauqi Dhiya Ulhaq — Personal Portfolio
 
-Portfolio statis dengan Astro, TypeScript strict, dan Tailwind CSS 4 melalui plugin Vite resmi. Konten publik menggunakan Bahasa Inggris. Tidak memakai framework UI, backend, database, atau font eksternal.
+Welcome to my personal portfolio! 👋
 
-## Menjalankan
+I'm **Syauqi Dhiya Ulhaq**, a Software Engineering graduate from Telkom University with a strong interest in **Software Quality Assurance, UI/UX Design, and Software Development**.
 
-Gunakan Node.js >=22.12.0 dan npm. Di Windows PowerShell yang memblokir `npm.ps1`, gunakan `npm.cmd` menggantikan `npm`.
+This portfolio showcases my professional journey, technical expertise, and selected projects. It highlights not only the final products but also the processes, methodologies, challenges, and contributions behind each project.
 
-```sh
-npm ci
-npm run dev -- --background
-npm run astro -- dev status
-npm run astro -- dev logs
-npm run astro -- dev stop
-```
+## About Me
 
-Buka URL lokal yang dicetak Astro, biasanya http://localhost:4321. Versi Astro dalam lockfile mendukung background mode.
+My background in Software Engineering has allowed me to explore different aspects of the software development lifecycle, from requirement analysis and interface design to software implementation and quality assurance.
 
-```sh
-npm run check
-npm run build
-npm run verify
-npm run test:timeline
-```
+Through academic projects, laboratory activities, and professional internships, I've gained hands-on experience working in collaborative development environments.
 
-`check` memeriksa tipe komponen dan TypeScript. `build` menghasilkan situs di `dist/`. `verify` memeriksa hasil build: satu H1 per halaman, metadata, bahasa, tautan/aset lokal, fragment anchor, serta kebocoran draft. Jalankan build sebelum verify. `test:timeline` menguji perhitungan progress (batas, scroll mundur, posisi dipulihkan, perubahan ukuran, dan geometri nol); ini bukan pengganti pengujian browser. Untuk preview hasil produksi: `npm run preview`.
+I'm particularly interested in ensuring software quality through systematic testing while creating intuitive and user-centered digital experiences.
 
-## Struktur
+## Featured Projects
 
-```text
-src/
-  content.config.ts                  Schema Content Collections
-  content/projects/
-    yayasan-amanah-ummah.md           Case study QA yang dipublikasikan
-    kai-website-redesign.md           Draft; tidak mendapat route publik
-  lib/projects.ts                    Query publik, urutan, kategori, URL
-  lib/profile.ts                     Deteksi foto dan CV opsional saat build
-  data/profile.ts                    Sumber URL CV, foto, email, LinkedIn, GitHub
-  lib/scroll-progress.ts              Perhitungan progress yang dibatasi 0–1
-  components/
-    Header.astro / Footer.astro
-    HomeLink.astro / DownloadCVButton.astro
-    ExperienceTimeline.astro           Timeline dengan progressive enhancement
-    Expertise.astro / SocialLinks.astro / Icon.astro
-    SectionHeading.astro / Arrow.astro
-    EvidenceGallery.astro            Hanya dirender bila ada bukti asli
-    projects/
-      ProjectCard.astro / ProjectGrid.astro / ProjectTags.astro
-      CaseStudyHero.astro
-  layouts/
-    BaseLayout.astro                  HTML, SEO, navigasi, footer
-    CaseStudyLayout.astro             Hero, daftar isi, body Markdown
-  pages/
-    index.astro                      Homepage
-    projects/index.astro             Daftar dan filter kategori
-    projects/[id].astro               Satu template route statis
-    404.astro
-  styles/global.css                  Token, komponen, breakpoint, reduced motion
-public/
-  favicon.svg                        Monogram portfolio
-  social-card.svg / social-card.png   Gambar berbagi berbasis tipografi
-scripts/
-  verify-build.mjs                    Pemeriksaan hasil build
-  generate-social-card.mjs            Render SVG tipografi menjadi PNG
-```
+### 1. Sistem Pengelola Donatur Yayasan Amanah Ummah
 
-## Menambahkan proyek
+**Role:** Quality Assurance Engineer  
+**Category:** Software Quality Assurance | Undergraduate Capstone Project
 
-1. Salin `docs/project-template.md` ke `src/content/projects/nama-proyek.md`. Gunakan nama file kebab-case; nama ini menjadi `/projects/nama-proyek/`.
-2. Isi `title`, `summary`, `category` (`qa`, `uiux`, `development`), `role`, dan `published`. Gunakan `published: false` selama konten belum layak dipublikasikan.
-3. Tulis body Markdown sesuai kebutuhan proyek. Heading level dua otomatis muncul dalam daftar isi. Heading body dimulai dari `##` karena judul halaman sudah menjadi H1.
-4. Metadata opsional: `projectType`, `period`, `tags`, `featured`, `order`, `cover`, `links`, dan `evidence`. Tidak perlu mengisi section atau nilai kosong. `order` yang lebih kecil tampil lebih dahulu.
-5. Ubah `published: true` setelah fakta, kontribusi, dan artefaknya dikonfirmasi. Gunakan `featured: true` untuk menampilkannya di homepage (maksimal empat, mengikuti `order`). Kartu dan halaman detail mengambil konten dari file yang sama.
-6. Jalankan check, build, dan verify.
+A donor management system developed for Yayasan Amanah Ummah.
 
-Template dokumentasi berada di luar Content Collections, sehingga placeholder dalam template tidak pernah masuk situs. Draft KAI hanya memuat informasi yang sudah diberikan pemilik. Proyek Aksara Ulu, BizGrow, dan Starbucks belum dibuat karena data kontribusinya belum tersedia.
+As the QA Engineer, I was responsible for managing the software testing process throughout the Software Testing Life Cycle (STLC) within an Agile Scrum environment.
 
-### Gambar dan tautan opsional
+**Key Contributions:**
+- Planned and executed functional testing activities across development sprints.
+- Designed test cases based on user stories and acceptance criteria.
+- Applied black-box testing techniques, including Boundary Value Analysis (BVA), Equivalence Partitioning (EQP), and Decision Table Testing.
+- Managed defect reporting, retesting, and regression testing.
+- Implemented functional test automation using Katalon Studio to support repetitive testing activities.
 
-Simpan gambar asli yang sudah disanitasi, misalnya di `src/assets/projects/nama-proyek/`, lalu gunakan path relatif terhadap Markdown:
+**Tools & Methods:** Katalon Studio, Black-Box Testing, Agile Scrum, STLC, Test Automation.
 
-```yaml
-cover:
-  src: ../../assets/projects/nama-proyek/overview.png
-  alt: A specific description of the real project evidence
-links:
-  - label: View repository
-    url: https://github.com/owner/repository
-evidence:
-  - src: ../../assets/projects/nama-proyek/test-suite.png
-    alt: A specific description of the visible test suite
-    caption: Context for this approved project artifact.
-```
+### 2. Aksara Ulu — Software Testing
 
-Contoh tersebut hanya menunjukkan format. Tambahkan metadata setelah file atau URL sebenarnya tersedia. Gambar divalidasi dan diproses oleh Astro Image. Galeri tidak dirender jika `evidence` kosong. Jangan unggah data donatur, kredensial, URL privat, atau screenshot sensitif.
+**Role:** Software Quality Assurance  
+**Category:** Software Quality Assurance
 
-## Desain dan aksesibilitas
+A software testing project involving the evaluation of the Aksara Ulu application across mobile and web platforms.
 
-- Light theme: Cold White `#F5F8FC` sebagai background utama, Navy `#0B1730` untuk teks dan tombol, Ice Blue `#A9D6F5` sebagai aksen. Contact menggunakan Navy secara terbatas.
-- Token semantik di `src/styles/global.css` mengatur background, teks, divider, dan focus. Teks sekunder menggunakan slate gelap `#53647B` agar kontras tetap memadai; Ice Blue tidak digunakan untuk teks kecil pada background terang.
-- Hero menonjolkan nama, identitas, foto/monogram, serta maksimal dua CTA. Section berurutan: Hero, About, Selected Projects, Experience, Expertise & Tools, Education & Achievements, Contact.
-- Navbar sticky menggunakan Home icon. Tinggi aktual navbar disinkronkan ke `--header-height`; anchor dan daftar isi case study menghindari area navbar. Menu mobile menggunakan button dengan `aria-expanded`, mendukung Escape, menutup setelah navigasi, dan tetap menyediakan link biasa jika JavaScript dimatikan.
-- Skip link, focus ring, semantic landmarks, target tombol minimal 44px, dan reduced motion tersedia.
-- Kartu memiliki satu link utama yang mencakup area kartu. Daftar isi memakai anchor asli.
-- Filter memakai button dengan `aria-pressed` dan status `aria-live`. Filter baru ditampilkan setelah JavaScript siap; semua proyek publik tetap terbaca tanpa JavaScript.
-- Tidak ada screenshot proyek buatan atau angka hasil yang tidak terverifikasi.
+My responsibilities include designing requirement-based test cases, performing functional testing, documenting defects, and collaborating with the testing team to evaluate software functionality.
 
-## SEO dan domain
+**Focus Areas:** Functional Testing, Test Case Design, Black-Box Testing, Defect Reporting.
 
-Title, description, Open Graph, dan Twitter metadata tersedia. Gambar fallback adalah tipografi identitas portfolio, bukan dokumentasi proyek. Edit SVG lalu jalankan `npm run social-card` untuk memperbarui PNG.
+### 3. BizGrow
 
-Domain belum diberikan, sehingga canonical dan URL Open Graph absolut tidak dikarang. Sebelum build untuk deployment, set `SITE_URL` ke origin HTTPS final melalui environment build; `astro.config.mjs` membacanya sebagai `site`. Setelah domain diisi, canonical, `og:url`, dan gambar Open Graph absolut otomatis aktif. Tidak perlu secret untuk situs ini.
+**Role:** Full Stack Developer & QA  
+**Category:** Software Development
 
-Tidak ada push atau deployment otomatis.
+A web-based platform designed to support small and medium-sized enterprises (SMEs) in managing business operations, including sales, inventory, and product demand forecasting.
 
-## Menambahkan foto pribadi dan CV
+My contributions covered various aspects of software development and quality assurance.
 
-1. Buat folder `public/images/` jika belum ada, lalu tambahkan foto asli sebagai `public/images/profile.jpg`. Gunakan foto portrait yang telah dikompresi; rasio 4:5, misalnya 640 × 800 piksel, cocok dengan bingkai. Posisi crop dapat diatur lewat `.portrait img` di CSS.
-2. Buat folder `public/documents/`, lalu tambahkan CV PDF publik sebagai `public/documents/syauqi-dhiya-ulhaq-cv.pdf`.
-3. Jalankan ulang `npm run build` (atau restart dev server) setelah menambah/mengganti file. Helper `src/lib/profile.ts` memeriksa keberadaan file pada saat rendering/build, bukan melalui permintaan dari browser.
+**Technologies:** Laravel, PHP, MySQL.
 
-Tanpa foto, hero menampilkan monogram netral SDU dan tidak membuat elemen gambar yang rusak. Tanpa CV, tombol Download CV tidak dirender. Ketika PDF tersedia, tombol unduh muncul otomatis di navbar dan Hero melalui `DownloadCVButton.astro`. Tidak ada tautan dummy atau foto buatan. Path publiknya adalah `/images/profile.jpg` dan `/documents/syauqi-dhiya-ulhaq-cv.pdf`.
+### 4. PT Kereta Api Indonesia — Corporate Website Redesign
 
-URL aset didefinisikan satu kali di `src/data/profile.ts`. Jika nama file CV berubah, cukup ubah `cvPath` di sana dan rebuild. File di `public/` bersifat publik, jadi gunakan versi CV yang memang siap dibagikan.
+**Role:** UI/UX Designer  
+**Category:** UI/UX Design | Professional Internship
 
-## Kontak dan branding navbar
+A redesign project for PT Kereta Api Indonesia's corporate website, focused on improving information accessibility, navigation, and user experience.
 
-Email, LinkedIn, dan GitHub dikelola melalui `src/data/profile.ts`. GitHub telah dikonfirmasi pemilik sebagai `https://github.com/syauqidu`. Ubah field `github` untuk menggantinya, atau isi string kosong untuk menyembunyikannya. Tidak ada URL yang diturunkan dari remote Git.
+The project involved designing user interfaces and interactive prototypes, including navigation concepts and visual interactions to create a more engaging browsing experience.
 
-Untuk mengganti Home icon dengan logo pribadi, edit isi link di `src/components/HomeLink.astro`. Pertahankan `href="/"` serta label aksesibel, lalu gunakan aset logo asli dengan ukuran yang sesuai. Tidak perlu mengubah layout navbar.
+**Tools & Methods:** Figma, UI/UX Design, Interactive Prototyping, Usability Evaluation.
 
-## Experience timeline
+### 5. Starbucks Mobile Application Redesign
 
-`ExperienceTimeline.astro` menggunakan custom element native, `IntersectionObserver`, `ResizeObserver`, dan `requestAnimationFrame`. Tidak menggunakan GSAP atau scroll hijacking.
+**Role:** UI/UX Designer  
+**Category:** UI/UX Design | National Competition
 
-- Progress dimulai saat section memasuki viewport dan berakhir ketika titik pengalaman terakhir mencapai area baca di bawah navbar.
-- Indikator kereta dan garis terisi memakai angka progress dan geometri yang sama. Posisi dihitung dari scroll aktual, termasuk saat halaman dibuka di tengah atau scroll dipulihkan.
-- Scroll ke atas membalik progress. Nilai dibatasi 0–1; tidak ada animasi yang berjalan sendiri.
-- Listener scroll hanya aktif ketika section terlihat dan reduced motion tidak aktif. Pembaruan dibatasi satu kali per frame. Ukuran section/header dan perubahan viewport memicu pengukuran ulang.
-- Semua teks selalu terlihat. Highlight tidak dipakai untuk menyembunyikan informasi. Reduced motion menampilkan timeline statis tanpa indikator bergerak. Jika API tidak tersedia, tampilan statis tetap berfungsi.
-- Custom element membersihkan observer, listener, dan frame saat dilepas dari DOM. Kegagalan update mengembalikan tampilan statis.
-- Entri bertanggal diurutkan menurut tanggal mulai (periode dapat tumpang tindih). Advanced Software Engineering Laboratory ditandai sebagai pengalaman tambahan karena tanggalnya belum dikonfirmasi.
+A collaborative redesign concept for the Starbucks mobile application, focused on improving customer experience through chatbot-assisted interactions and clearer nutritional information.
 
-## Ikon dan dependency
+The project received **3rd Place in the Digi X National Business Plan & UI/UX Case Competition 2023**, organized by HIMA Bisnis Digital, Universitas Padjadjaran.
 
-Tambahan dependency hanya `@iconify-json/lucide` untuk ikon antarmuka/konsep dan `@iconify-json/devicon` untuk logo teknologi/platform. `Icon.astro` merender SVG pada waktu build; koleksi JSON tidak dikirim sebagai runtime browser. Logo Katalon disimpan lokal sebagai SVG terpisah. Tidak ada permintaan ke CDN ikon atau library animasi.
+**Focus Areas:** Mobile UI/UX Design, User Experience, Interface Redesign.
 
-Sumber dan lisensi dicatat di `docs/icon-sources.md`. Ikon di samping teks disembunyikan dari pembaca layar agar tidak mengulang label. Link ikon Home memiliki accessible label sendiri.
+Additional projects and detailed case studies are presented throughout the portfolio as their documentation becomes available.
 
-Pemeriksaan browser yang disarankan: scroll dua arah pada Experience, buka langsung `/#experience`, uji reduced motion, matikan JavaScript, buka/tutup menu dengan keyboard, dan periksa overflow pada lebar 320, 768, dan 1440 piksel. Uji kedua tombol CV setelah PDF asli tersedia.
+## Experience
 
-## Data yang masih diperlukan
+### UI/UX Designer Intern — PT Kereta Api Indonesia (Persero)
 
-- Foto pribadi asli dan CV PDF yang siap dipublikasikan.
-- Domain publik final.
-- Screenshot/artefak YAU yang aman dipublikasikan dan tautan publik yang benar-benar tersedia.
-- Untuk setiap proyek berikutnya: konteks, peran pribadi, proses, tools yang benar-benar digunakan, tantangan, hasil terverifikasi, dan bukti yang mendapat izin publikasi.
-- Tanggal pengalaman Advanced Software Engineering Laboratory bila ingin ditampilkan.
+*July 2025 – September 2025*
 
-## Referensi implementasi
+Contributed to the redesign of KAI's corporate website, focusing on interface design, information accessibility, and user experience.
 
-- [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
-- [Astro Routing](https://docs.astro.build/en/guides/routing/)
-- [Astro Components](https://docs.astro.build/en/basics/astro-components/)
-- [Tailwind dalam Astro](https://docs.astro.build/en/guides/styling/#tailwind)
+### Teaching & Practicum Assistant — Informatics Laboratory, Telkom University
+
+*September 2024 – June 2026*
+
+Supported teaching and practical activities across Software Engineering courses, including Software Testing, Software Analysis and Design, Object-Oriented Programming, Web Programming, and Mobile Programming.
+
+### UI/UX & QA Mentoring — Advanced Software Engineering Laboratory
+
+Participated in UI/UX design activities and software quality assurance mentoring, supporting knowledge-sharing and collaborative learning.
+
+## Technical Expertise
+
+| Area | Skills & Technologies |
+|---|---|
+| Software Quality Assurance | Manual Testing, Functional Testing, Black-Box Testing, Test Automation, Katalon Studio, UAT |
+| UI/UX Design | Figma, Wireframing, Prototyping, User Flow, Usability Testing |
+| Programming | JavaScript, PHP, Java |
+| Frameworks | Laravel, Express.js, Next.js |
+| Databases | MySQL, PostgreSQL |
+| Development Tools | Git, GitHub |
+
+## Education
+
+**Telkom University**  
+Bachelor of Software Engineering  
+2022 – 2026  
+**GPA: 3.90 / 4.00**
+
+## Honors & Awards
+
+🏆 **3rd Place — Digi X National Business Plan & UI/UX Case Competition 2023**
+
+Organized by HIMA Bisnis Digital, Universitas Padjadjaran.
+
+*November 2023*
+
+Project: *Starbucks Mobile Application Redesign — Improving Customer Satisfaction Through Chatbot Integration and Clearer Nutritional Information.*
+
+## About This Portfolio
+
+This website is designed to present my work through an organized collection of projects and case studies.
+
+Rather than focusing solely on the final results, each case study aims to explain the context, my responsibilities, the approaches used, and the contributions I made.
+
+The portfolio follows a modern, minimalist design approach, combining **Cold White** and **Deep Navy** with clean typography, responsive layouts, and subtle interactions.
+
+### Built With
+
+- **Astro** — Website framework.
+- **TypeScript** — Type-safe development.
+- **Tailwind CSS** — Styling and responsive layouts.
+- **Astro Content Collections** — Structured project content and case studies.
+
+## Contact
+
+I'm always open to connecting, sharing knowledge, and exploring opportunities in Software Engineering, Software Quality Assurance, and UI/UX Design.
+
+- **Email:** [syauqi.d.u@gmail.com](mailto:syauqi.d.u@gmail.com)
+- **LinkedIn:** [linkedin.com/in/syauqidhiyaulhaq](https://www.linkedin.com/in/syauqidhiyaulhaq/)
+
+---
+
+© 2026 Syauqi Dhiya Ulhaq. Built with Astro.
