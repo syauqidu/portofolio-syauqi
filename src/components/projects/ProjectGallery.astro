@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props { items: CollectionEntry<'projects'>['data']['gallery']; }
+const { items } = Astro.props;
+---
+{items.length > 0 && <project-gallery class="project-gallery" role="region" aria-roledescription="carousel" aria-label="Project screenshots">
+  <div class="project-gallery-viewport" tabindex="0" aria-label="Project screenshots. Use the left and right arrow keys to browse.">
+    {items.map((item, index) => <figure class="project-slide" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${items.length}`}>
+      <div class="project-slide-frame">
+        <Image class="case-cover" style={`object-position: center ${item.position}`} src={item.src} alt={item.alt} widths={[640, 1200, 1600]} sizes="(max-width: 700px) 100vw, 1160px" loading={index === 0 ? 'eager' : 'lazy'} />
+      </div>
+      {item.caption && <figcaption>{item.caption}</figcaption>}
+    </figure>)}
+  </div>
+  {items.length > 1 && <div class="project-gallery-controls" hidden>
+    <button type="button" data-direction="-1" aria-label="Previous image"><span aria-hidden="true">←</span></button>
+    <p class="project-gallery-status" role="status" aria-live="polite" aria-atomic="true">1 / {items.length}</p>
+    <button type="button" data-direction="1" aria-label="Next image"><span aria-hidden="true">→</span></button>
+  </div>}
+</project-gallery>}
+
+<script>
+  class ProjectGallery extends HTMLElement {
+    private dispose?: () => void;
+    connectedCallback() {
+      if (this.dispose) return;
+      const viewport = this.querySelector<HTMLElement>('.project-gallery-viewport');
+      const slides = Array.from(this.querySelectorAll<HTMLElement>('.project-slide'));
+      const controls = this.querySelector<HTMLElement>('.project-gallery-controls');
+      const status = this.querySelector<HTMLElement>('.project-gallery-status');
+      if (!viewport || !slides.length) return;
+      const events = new AbortController();
+      let index = 0;
+      let frame = 0;
+      const sync = () => {
+        frame = 0;
+        index = Math.max(0, Math.min(slides.length - 1, Math.round(viewport.scrollLeft / Math.max(1, viewport.clientWidth))));
+        slides.forEach((slide, n) => { slide.inert = n !== index; });
+        if (status) status.textContent = `${index + 1} / ${slides.length}`;
+      };
+      const go = (next: number) => {
+        index = (next + slides.length) % slides.length;
+        viewport.scrollTo({ left: index * viewport.clientWidth, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      };
+      this.querySelectorAll<HTMLButtonElement>('[data-direction]').forEach(button => {
+        button.addEventListener('click', () => go(index + Number(button.dataset.direction)), { signal: events.signal });
+      });
+      viewport.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          go(index + (event.key === 'ArrowRight' ? 1 : -1));
+        }
+      }, { signal: events.signal });
+      viewport.addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(sync); }, { passive: true, signal: events.signal });
+      const resize = new ResizeObserver(() => {
+        viewport.scrollTo({ left: index * viewport.clientWidth, behavior: 'instant' });
+        sync();
+      });
+      resize.observe(viewport);
+      if (controls) controls.hidden = false;
+      sync();
+      this.dispose = () => { events.abort(); resize.disconnect(); cancelAnimationFrame(frame); };
+    }
+    disconnectedCallback() { this.dispose?.(); this.dispose = undefined; }
+  }
+  if (!customElements.get('project-gallery')) customElements.define('project-gallery', ProjectGallery);
+</script>

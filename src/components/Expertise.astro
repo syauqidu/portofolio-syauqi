@@ -44,24 +44,26 @@ const areas: { title: string; description: string; tools: Tool[] }[] = [
   },
 ];
 ---
-<section id="skills" class="section section-bordered shell">
-  <SectionHeading number="04" label="Expertise & tools" title="Three connected perspectives." />
-  <div class="skills-grid">
-    {areas.map((area) => (
-      <article class="skill-column">
-        <h3>{area.title}</h3>
-        <p>{area.description}</p>
-        <ul class="tool-list">
-          {area.tools.map((tool) => <li>
-            <span class="tool-icon">
-              {tool.icon && <Icon name={tool.icon} size={23} />}
-              {tool.image && <img src={tool.image} alt="" width="23" height="23" loading="lazy" />}
-            </span>
-            <span>{tool.label}</span>
-          </li>)}
-        </ul>
-        {area.title === 'Software Quality Assurance' && <p class="technique-note">BVA · Equivalence Partitioning · Decision Tables</p>}
-      </article>
-    ))}
+<section id="skills" class="section section-bordered home-band home-band-soft">
+  <div class="shell">
+    <SectionHeading number="04" label="Expertise & tools" title="Three connected perspectives." />
+    <div class="skills-grid">
+      {areas.map((area) => (
+        <article class="skill-column">
+          <h3>{area.title}</h3>
+          <p>{area.description}</p>
+          <ul class="tool-list">
+            {area.tools.map((tool) => <li>
+              <span class="tool-icon">
+                {tool.icon && <Icon name={tool.icon} size={23} />}
+                {tool.image && <img src={tool.image} alt="" width="23" height="23" loading="lazy" />}
+              </span>
+              <span>{tool.label}</span>
+            </li>)}
+          </ul>
+          {area.title === 'Software Quality Assurance' && <p class="technique-note">BVA · Equivalence Partitioning · Decision Tables</p>}
+        </article>
+      ))}
+    </div>
   </div>
 </section>

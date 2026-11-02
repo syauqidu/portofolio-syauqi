@@ -7,6 +7,24 @@ projectType: Undergraduate Capstone Project
 tags: [Katalon Studio, Black-box Testing, Agile Scrum, Regression Testing]
 featured: true
 order: 1
+# Cover tampil pada kartu proyek dan bagian atas case study.
+cover:
+  src: ../../assets/projects/yayasan-amanah-ummah/cover.png
+  alt: "Donasi YAU home screen with donation categories and program listings"
+# Gambar pembuka slider; urutan item sama dengan urutan slide.
+gallery:
+  - src: ../../assets/projects/yayasan-amanah-ummah/cover.png
+    alt: "Donasi YAU home screen with donation categories"
+    caption: "Donation program discovery."
+    position: top
+  - src: ../../assets/projects/yayasan-amanah-ummah/cover2.png
+    alt: "Donation program detail screen"
+    caption: "Program details and donation information."
+    position: top
+  - src: ../../assets/projects/yayasan-amanah-ummah/app2.png
+    alt: "Donation history screen"
+    caption: "Transaction history and status."
+    position: top
 published: true
 ---
 
@@ -15,6 +33,17 @@ published: true
 I worked as the Quality Assurance (QA) contributor on **Sistem Pengelola Donatur Yayasan Amanah Ummah**, a donor management system developed as an undergraduate capstone project.
 
 The team followed Agile Scrum. Each sprint introduced a defined set of modules and user stories, with acceptance criteria providing the basis for testing. My work connected those requirements to test cases, execution results, and defect reports throughout development.
+
+<!-- Pindahkan seluruh blok div ini untuk memindahkan pasangan gambar. -->
+<div class="case-image-grid">
+
+![Donation program detail screen with progress, description, and fund usage information](../../assets/projects/yayasan-amanah-ummah/cover2.png)
+
+![Donation history screen displaying pending and successful transaction statuses](../../assets/projects/yayasan-amanah-ummah/app2.png)
+
+</div>
+
+*Application screens provide context for the system under test. My contribution focused on QA.*
 
 ## My responsibilities
 
@@ -28,6 +57,11 @@ The following sequence describes the testing workflow used within the sprint cyc
 4. **Execute and document.** Run the tests, compare actual and expected results, and record findings.
 5. **Report and verify.** Document defects for the development team, retest fixes, and perform relevant regression checks.
 6. **Report and close.** Bring together execution results and defect status in the testing report.
+
+<!-- Pindahkan gambar beserta caption di bawahnya untuk mengubah posisi. -->
+![Test plan excerpt showing user stories in scope and the testing activity schedule](../../assets/projects/yayasan-amanah-ummah/testplan.png)
+
+*Example of test strategies and schedule from the Test Plan*
 
 ## Test design
 
@@ -45,7 +79,10 @@ For requirements involving combinations of conditions, I used decision tables to
 
 I grouped inputs into partitions expected to behave similarly and selected representative values from the relevant valid and invalid groups.
 
-These techniques informed the test cases; they were not a substitute for the user stories and their acceptance criteria.
+These techniques informed the test case, they were not a substitute for the user stories and their acceptance criteria.
+
+![Test case documentation](../../assets/projects/yayasan-amanah-ummah/testcase.png)
+*Examples of the test cases*
 
 ## Test environment & execution
 
@@ -58,6 +95,9 @@ During manual functional testing, I executed the documented scenarios and compar
 I recorded findings in bug reports for the frontend and backend developers to address. After a fix was available, I retested the affected behavior to check whether it met the expected result.
 
 I also performed relevant regression testing to check whether changes affected behavior that had previously worked. Defect reporting, retesting, and regression were part of an ongoing feedback loop within the sprint workflow.
+
+![Bug report spreadsheet with expected and actual results, severity, priority, and defect status](../../assets/projects/yayasan-amanah-ummah/bugreport.png)
+*Bugs Report*
 
 ## Automation with Katalon Studio
 
@@ -72,6 +112,10 @@ My workflow was to:
 5. **Organize automated test cases into module-based Test Suites**, so related checks could be executed together.
 
 The suites supported repeatable testing as development progressed. No measured time savings or automation coverage percentage is claimed here.
+
+![Katalon Studio donation form test suite with automated cases grouped by module](../../assets/projects/yayasan-amanah-ummah/katalon.png)
+
+*Automated donation form test cases organized into a module-based Test Suite.*
 
 ## Automation boundaries
 

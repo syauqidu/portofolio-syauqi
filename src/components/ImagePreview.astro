@@ -1,0 +1,64 @@
+<dialog class="image-preview" aria-label="Image preview">
+  <div class="image-preview-toolbar">
+    <a class="image-preview-original" target="_blank" rel="noopener noreferrer">Open full-size image <span class="sr-only">(opens in a new tab)</span></a>
+    <button class="image-preview-close" type="button" autofocus>Close <span aria-hidden="true">×</span></button>
+  </div>
+  <figure>
+    <img class="image-preview-image" alt="" />
+    <figcaption class="image-preview-caption"></figcaption>
+  </figure>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.image-preview');
+  const preview = dialog?.querySelector<HTMLImageElement>('.image-preview-image');
+  const caption = dialog?.querySelector<HTMLElement>('.image-preview-caption');
+  const original = dialog?.querySelector<HTMLAnchorElement>('.image-preview-original');
+  const close = dialog?.querySelector<HTMLButtonElement>('.image-preview-close');
+
+  if (dialog && preview && caption && original && close) {
+    let trigger: HTMLButtonElement | undefined;
+    let previousOverflow = '';
+
+    document.querySelectorAll<HTMLImageElement>('.case-hero .case-cover, .case-body .prose img').forEach((img) => {
+      if (img.closest('a, button')) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'image-preview-trigger';
+      button.setAttribute('aria-label', `Enlarge image: ${img.alt || 'Project documentation'}`);
+      button.setAttribute('aria-haspopup', 'dialog');
+      img.before(button);
+      button.append(img);
+      button.addEventListener('click', () => {
+        trigger = button;
+        // Prefer the widest generated source for readable documentation screenshots.
+        const sources = img.srcset.split(',').map((entry) => {
+          const [url, descriptor] = entry.trim().split(/\s+/);
+          return { url, width: Number.parseFloat(descriptor || '0') };
+        }).filter((entry) => entry.url).sort((a, b) => b.width - a.width);
+        const source = sources[0]?.url || img.currentSrc || img.src;
+        preview.src = source;
+        preview.alt = img.alt;
+        original.href = source;
+        caption.textContent = img.alt;
+        previousOverflow = document.documentElement.style.overflow;
+        document.documentElement.style.overflow = 'hidden';
+        dialog.showModal();
+        close.focus();
+      });
+    });
+
+    close.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+    // Native dialog handles Escape and keeps keyboard focus inside the preview.
+    dialog.addEventListener('close', () => {
+      document.documentElement.style.overflow = previousOverflow;
+      preview.removeAttribute('src');
+      trigger?.focus({ preventScroll: true });
+    });
+  }
+</script>

@@ -15,7 +15,11 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().default(100),
     published: z.boolean(),
-    cover: z.object({ src: image(), alt: z.string().min(1) }).optional(),
+    cover: z.object({ src: image(), alt: z.string().min(1), position: z.enum(['top', 'center', 'bottom']).default('top') }).optional(),
+    gallery: z.array(z.object({
+      src: image(), alt: z.string().min(1), caption: z.string().optional(),
+      position: z.enum(['top', 'center', 'bottom']).default('top'),
+    })).default([]),
     links: z.array(z.object({
       label: z.string().min(1),
       url: z.url().refine((value) => value.startsWith('https://'), 'Use a public HTTPS URL'),

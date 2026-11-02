@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import '../styles/global.css';
 interface Props { title: string; description: string; noindex?: boolean; }
 const { title, description, noindex = false } = Astro.props;
@@ -29,10 +30,11 @@ const socialImage = Astro.site ? new URL('/social-card.png', Astro.site) : undef
     {socialImage && <meta property="og:image:alt" content="Syauqi Dhiya Ulhaq — Quality Assurance, UI/UX Design, Software Development" />}
     <meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
   </head>
-  <body id="top">
+  <body id="top" class:list={{ 'home-page': Astro.url.pathname === '/' }}>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <main id="main-content"><slot /></main>
     <Footer />
+    <BackToTop />
   </body>
 </html>

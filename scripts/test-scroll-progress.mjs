@@ -6,7 +6,21 @@ import ts from 'typescript';
 // Compile the production TypeScript helper without depending on Node's TS loader version.
 const source = await readFile(new URL('../src/lib/scroll-progress.ts', import.meta.url), 'utf8');
 const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } });
-const { getScrollProgress } = await import(`data:text/javascript;base64,${Buffer.from(compiled.outputText).toString('base64')}`);
+const { getScrollProgress, getTimelineBounds } = await import(`data:text/javascript;base64,${Buffer.from(compiled.outputText).toString('base64')}`);
+
+test('train waits for the first stop, then stays at the viewport midpoint in both directions', () => {
+  for (const viewport of [640, 900, 1200]) {
+    const first = 1600;
+    const last = 3200;
+    const { start, end } = getTimelineBounds(first, last, viewport);
+    assert.equal(getScrollProgress(start - 50, start, end), 0);
+    for (const scroll of [start, start + 150, end - 100, end, start + 150]) {
+      const markerOnScreen = first - scroll + getScrollProgress(scroll, start, end) * (last - first);
+      assert.equal(markerOnScreen, viewport / 2);
+    }
+    assert.equal(getScrollProgress(end + 100, start, end), 1);
+  }
+});
 
 test('progress is clamped before and after the section, including large scroll jumps', () => {
   assert.equal(getScrollProgress(-500, 100, 900), 0);

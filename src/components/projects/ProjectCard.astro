@@ -9,7 +9,7 @@ const { project, featured = false, headingLevel: Heading = 'h3' } = Astro.props;
 const { data } = project;
 ---
 <article class:list={['project-card', { 'project-featured': featured }]} data-category={data.category}>
-  {data.cover && <Image class="project-cover" src={data.cover.src} alt={data.cover.alt} widths={[480, 900]} sizes="(max-width: 700px) 100vw, 50vw" />}
+  {data.cover && <Image class="project-cover" style={`object-position: center ${data.cover.position}`} src={data.cover.src} alt={data.cover.alt} widths={[480, 900, 1200]} sizes="(max-width: 700px) 100vw, 50vw" />}
   <div class="project-card-top">
     <span class="eyebrow accent">{categories[data.category]}</span>
     {data.projectType && <p class="small-label">{data.projectType}</p>}
