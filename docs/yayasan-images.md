@@ -26,7 +26,7 @@ cover:
   alt: "Donasi YAU home screen with donation categories and program listings"
 ```
 
-Sesuaikan nama/ekstensi file dan alt dengan gambar aslinya. Cover memenuhi kartu 16:9 menggunakan `object-fit: cover`; atur `position: top`, `center`, atau `bottom` untuk memilih area potongan. Slider pembuka diatur lewat `gallery`, terpisah dari cover kartu. Klik gambar slider untuk preview utuh. Lihat `docs/homepage-and-gallery.md` untuk contoh.
+Sesuaikan nama/ekstensi file dan alt dengan gambar aslinya. Cover ditampilkan utuh dan terpusat dalam kartu 16:9 menggunakan object-fit: contain, tanpa crop. Slider pembuka diatur lewat `gallery`, terpisah dari cover kartu. Klik gambar slider untuk preview utuh. Lihat `docs/homepage-and-gallery.md` untuk contoh.
 
 ## Memindahkan atau menambahkan gambar di tengah artikel
 

@@ -2,7 +2,7 @@
 
 ## Cover dan slider
 
-`cover` di frontmatter Markdown menentukan gambar kartu. Gambar memenuhi frame 16:9 menggunakan `object-fit: cover`, sehingga screenshot tinggi akan terpotong secara proporsional. Field `position` menerima `top`, `center`, atau `bottom` untuk memilih area potongan (default `top`).
+`cover` di frontmatter Markdown menentukan gambar kartu. Gambar ditampilkan utuh di frame 16:9 menggunakan object-fit: contain. Proporsi asli dipertahankan tanpa crop; ruang kosong memakai background netral. Field position lama tetap diterima untuk kompatibilitas, tetapi tampilan gambar kini selalu di tengah.
 
 `gallery` menentukan gambar pembuka halaman detail. Urutan item adalah urutan slide. Contoh:
 
@@ -17,9 +17,9 @@ gallery:
     position: top
 ```
 
-Slider memakai panah sebelumnya/berikutnya, tombol keyboard kiri/kanan, dan swipe/scroll horizontal. Tidak ada autoplay. Gambar memenuhi frame; klik untuk melihat gambar utuh melalui preview yang sudah ada. Rasio frame adalah 16:9 di desktop dan 4:3 di mobile. Untuk screenshot panjang, gunakan preview dan tautan full-size untuk membaca seluruh isinya.
+Slider memakai tombol panah melayang di sisi kiri dan kanan gambar, dengan shadow. Keyboard kiri/kanan juga didukung saat area gambar mendapat fokus. Tidak ada scroll horizontal, swipe, atau autoplay. Gambar ditampilkan utuh tanpa crop dalam frame 16:9 di desktop dan 4:3 di mobile. Klik gambar untuk preview atau buka full-size agar screenshot panjang mudah dibaca.
 
-Jika `gallery` kosong, cover digunakan sebagai satu gambar tanpa panah. Jika cover dan gallery kosong, area gambar tidak ditampilkan. Tanpa JavaScript, gambar tetap dapat dijelajahi dengan scroll horizontal. Gambar body Markdown dan evidence tetap independen dari gallery.
+Jika `gallery` kosong, cover digunakan sebagai satu gambar tanpa panah. Jika cover dan gallery kosong, area gambar tidak ditampilkan. Tanpa JavaScript, seluruh gambar ditampilkan berurutan secara vertikal. Gambar body Markdown dan evidence tetap independen dari gallery.
 
 ## Urutan Experience dan logo
 

@@ -17,7 +17,7 @@ File `.gitkeep` mempertahankan folder kosong di Git; boleh dibiarkan saat gambar
 2. Buka Markdown proyek tersebut dan hapus awalan `#` pada tiga baris `cover`, `src`, dan `alt` yang sudah disiapkan pada frontmatter.
 3. Sesuaikan `alt` dengan isi gambar dalam Bahasa Inggris. Pertahankan indentasi dua spasi.
 
-`cover` ditampilkan di kartu Projects/homepage. Rasio 16:9 cocok untuk kartu; kartu memotong gambar mengikuti rasio tersebut. Format JPG, PNG, atau WebP boleh dipakai; samakan nama file dan ekstensi pada `src`. Atur `position: top`, `center`, atau `bottom` untuk memilih area potongan.
+`cover` ditampilkan di kartu Projects/homepage. Frame kartu memiliki rasio 16:9; gambar ditampilkan utuh dengan proporsi asli tanpa dipotong. Format JPG, PNG, atau WebP boleh dipakai; samakan nama file dan ekstensi pada `src`. Gambar selalu diposisikan di tengah frame.
 
 Slider pembuka case study memakai field `gallery`. Jika tidak diisi, cover menjadi satu gambar pembuka. Lihat `docs/homepage-and-gallery.md` untuk contoh menambah slide dan lokasi logo Experience.
 

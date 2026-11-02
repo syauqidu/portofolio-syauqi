@@ -16,25 +16,17 @@ tags:
   - Defect Reporting
 featured: true
 cover:
-  src: ../../assets/projects/aksara-ulu-kaganga/cover.jpg
+  src: ../../assets/projects/aksara-ulu-kaganga/appmock.png
   alt: "Aksara Ulu mobile home screen with character detection and transliteration features"
 # Gambar pembuka slider; urutan item sama dengan urutan slide.
 gallery:
-  - src: ../../assets/projects/aksara-ulu-kaganga/cover.jpg
+  - src: ../../assets/projects/aksara-ulu-kaganga/appmock.png
     alt: "Aksara Ulu mobile home screen"
-    caption: "Mobile application overview."
+    # caption: "Mobile application overview."
     position: top
-  - src: ../../assets/projects/aksara-ulu-kaganga/app.jpg
-    alt: "Character analysis progress on the Aksara Ulu mobile application"
-    caption: "Character processing screen."
-    position: top
-  - src: ../../assets/projects/aksara-ulu-kaganga/app2.jpg
+  - src: ../../assets/projects/aksara-ulu-kaganga/appmock3.png
     alt: "Character prediction result on the Aksara Ulu mobile application"
-    caption: "An individual prediction result, not an overall accuracy metric."
-    position: top
-  - src: ../../assets/projects/aksara-ulu-kaganga/app3.jpg
-    alt: "Latin text transliterated into Ulu characters"
-    caption: "Mobile transliteration result."
+    # caption: "Mobile application overview."
     position: top
 published: true
 order: 2
@@ -118,3 +110,13 @@ I documented testing results in test reports and recorded findings in bug report
 *An excerpt from the wider team's defect log. These visible entries concern the web application and provide team reporting context; they are not presented as my individual mobile findings.*
 
 My contributions covered requirement-based test cases, test reports, bug reports, automation examples, and closure documentation. Together, these represented my work from understanding the application requirements to communicating testing findings to the team and client.
+
+## Gallery
+
+<div class="case-image-grid">
+
+![Evaluasi Hasil Pengujian dengan stakeholder](../../assets/projects/aksara-ulu-kaganga/dokum.jpg)
+
+![Evaluasi Hasil Pengujian dengan stakeholder](../../assets/projects/aksara-ulu-kaganga/dokum1.jpg)
+
+</div>
